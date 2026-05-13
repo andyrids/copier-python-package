@@ -1,0 +1,85 @@
+---
+_exclude:
+    - includes
+
+_subdirectory: template
+_templates_suffix: .jinja
+
+# type: bool, float, int, json, path, str, yaml
+# help: Additional text to help the user know what this question is for
+# choices: To restrict possible values
+# multiselect: When set to true, allows multiple choices
+# default: Specify default answer
+# secret: When true, hides the prompt with asterisks (*****)
+# placeholder: A visual example for what would be a good value
+# qmark: Custom emoji or mark to display before the question
+# multiline: When set to true, allows multiple lines of input
+# validator: Jinja template for user input validation
+# when: Condition that, if false - skips the question
+
+package_name:
+  type: str
+  help: What is the distribution package name?
+  description: "The name of the distribution package e.g. example-package."
+  default: "{{ package_name | lower | regex_replace('[-_.]+', '-') }}"
+  placeholder: example-package
+  validator: "{% from 'validators.jinja' import check_package_name %}{{ check_package_name(package_name) }}"
+
+import_package_name:
+  type: str
+  help: What is the import package name?
+  description: "The name of the import package e.g. example_package."
+  default: "{{ package_name | lower | regex_replace('[-_.]+', '_') }}"
+  when: false
+
+package_description:
+  type: str
+  help: What is the summary description of the package?
+  description: "The summary description of the project in one line."
+  default: "An example Python package."
+  placeholder: An example Python package.
+  multiline: false
+
+user_name:
+  type: str
+  help: Your full name?
+  description: User's full name.
+
+user_email:
+  type: str
+  help: Your email address?
+  description: User's email address.
+
+git_platform:
+  type: str
+  help: Which Git platform are you using?
+  choices:
+    - GitHub
+    - GitLab
+  default: GitHub
+
+git_repository:
+  type: str
+  help: What is the URL of the Git repository?
+  default: >-
+    {%- if git_platform == 'GitHub' -%}
+      https://github.com/{{ github_user }}/{{ package_name }}
+    {%- elif git_platform == 'GitLab' -%}
+      https://gitlab.com/{{ gitlab_user }}/{{ package_name }}
+    {%- endif -%}
+
+requires_python:
+  type: str
+  help: What is the minimum supported Python version?
+  description: "The minimum Python version required to run this package."
+  default: ">=3.10"
+  placeholder: >=3.10
+  validator: "{% from 'validators.jinja' import check_requires_python %}{{ check_requires_python(requires_python) }}"
+
+python_version:
+  type: str
+  help: Which specific Python version are you using for development?
+  description: "The specific Python version used for development."
+  default: "3.12.13"
+  placeholder: 3.12.13
+  validator: "{% from 'validators.jinja' import check_python_version %}{{ check_python_version(python_version) }}"
