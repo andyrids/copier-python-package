@@ -1,0 +1,42 @@
+#:schema https://raw.githubusercontent.com/j178/prek/refs/heads/master/prek.schema.json
+
+# REMOTE REPO HOOKS
+
+[[repos]]
+repo = "https://github.com/gitleaks/gitleaks"
+rev = "v8.30.1"
+
+  [[repos.hooks]]
+  id = "gitleaks"
+
+# LOCAL REPO HOOKS
+
+[[repos]]
+repo = "local"
+
+  [[repos.hooks]]
+  id = "format"
+  name = "Format [Ruff]"
+  entry = "uv run -m ruff format src tests"
+  language = "system"
+  types_or = ["python", "pyi"]
+  require_serial = true
+  pass_filenames = false
+
+  [[repos.hooks]]
+  id = "lint"
+  name = "Lint [Ruff]"
+  entry = "uv run -m ruff check --fix --exit-non-zero-on-fix src tests"
+  language = "system"
+  types_or = ["python", "pyi"]
+  require_serial = true
+  pass_filenames = false
+
+  [[repos.hooks]]
+  id = "typing"
+  name = "Typing [Mypy]"
+  entry = "uv run -m mypy src"
+  language = "system"
+  types_or = ["python", "pyi"]
+  require_serial = true
+  pass_filenames = false
