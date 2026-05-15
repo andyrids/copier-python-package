@@ -1,5 +1,19 @@
 #:schema https://raw.githubusercontent.com/j178/prek/refs/heads/master/prek.schema.json
 
+# BUILTIN REPO HOOKS
+
+[[repos]]
+repo = "builtin"
+
+  [[repos.hooks]]
+  id = "check-toml"
+
+  [[repos.hooks]]
+  id = "check-yaml"
+
+  [[repos.hooks]]
+  id = "detect-private-key"
+
 # REMOTE REPO HOOKS
 
 [[repos]]
