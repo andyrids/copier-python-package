@@ -1,0 +1,34 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# uv — virtual environment
+.venv/
+
+# pytest — test cache
+.pytest_cache/
+
+# Coverage.py — reports and data
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# mypy — type-check cache
+.mypy_cache/
+
+# Ruff — lint/format cache
+.ruff_cache/
+
+# prek — pre-commit hook cache
+.prek/
+
+# Copier — answers file (written when template is applied to itself during testing)
+.copier-answers.yml
+
+# macOS — filesystem metadata
+.DS_Store
+
+# Windows — filesystem metadata
+Thumbs.db
+ehthumbs.db

@@ -3,16 +3,37 @@ name = "copier-python-package"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICEN[CS]E*", "COPYRIGHT"]
+authors = [
+    { name = "Andrew Ridyard", email = "andyrids.culprit320@passmail.com" },
+]
+requires-python = ">=3.10"
+keywords = []
+classifiers = [
+    # 3 - Alpha | 4 - Beta | 5 - Production/Stable
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Private :: Do Not Upload",
+    "Typing :: Typed",
+]
 dependencies = []
 
 [project.optional-dependencies]
-dev = [
-    "mypy>=1.0",
-]
+dev = ["detect-secrets"]
+
+[project.urls]
+Repository = "https://github.com/andyrids/copier-python-package"
+Issues = "https://github.com/andyrids/copier-python-package/issues"
+Changelog = "https://github.com/andyrids/copier-python-package/blob/main/CHANGELOG.md"
 
 [tool.mypy]
-python_version = "3.14"
+python_version = "3.13"
 
 # Require fully-typed function signatures
 disallow_untyped_defs = true
@@ -49,7 +70,57 @@ extra_checks = true
 # Show error codes to enable precise type: ignore[<code>] annotations
 show_error_codes = true
 
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+
+[tool.ruff]
+exclude = []
+indent-width = 4
+line-length = 79
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = [
+    "ANN001", # flake8-annotations (missing-type-function-argument)
+    "ANN002", # flake8-annotations (missing-type-args)
+    "ANN003", # flake8-annotations (missing-type-kwargs)
+    "D1",     # pydocstyle (undocumented-* ruleset)
+    "D403",   # pydocstyle (first-word-uncapitalized)
+    "D417",   # pydocstyle (undocumented-param)
+    "D419",   # pydocstyle (empty-docstring)
+    "E",      # pycodestyle (error ruleset)
+    "ERA",    # commented out code
+    "F401",   # pyflakes (unused-import)
+    "I002",   # isort (missing-required-import)
+    "LOG002", # flake8-logging (invalid-get-logger-argument)
+    "LOG007", # flake8-logging (exception-without-exc-info)
+    "LOG015", # flake8-logging (root-logger-call)
+    "NPY001", # NumPy-specific rules (numpy-deprecated-type-alias)
+    "NPY003", # NumPy-specific rules (numpy-deprecated-function)
+    "T100",   # flake8-debugger (debugger)
+    "T201",   # flake8-print (print)
+    "TRY002", # tryceratops (raise-vanilla-class)
+    "TRY003", # tryceratops (raise-vanilla-args)
+    "TRY004", # tryceratops (type-check-without-type-error)
+    "TRY300", # tryceratops (try-consider-else)
+    "TRY401", # tryceratops (verbose-log-message)
+    "W",      # pycodestyle (warning ruleset)
+    "C90",    # McCabe complexity (complex-structure)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [dependency-groups]
 dev = [
-    "prek>=0.4.0",
+    "coverage>=7.14.0",
+    "detect-secrets>=1.5.0",
+    "mypy>=2.1.0",
+    "prek>=0.4.1",
+    "pytest>=9.0.3",
+    "ruff>=0.15.14",
 ]

@@ -3,24 +3,45 @@ name = "{{ package_name }}"
 version = "0.1.0"
 description = "{{ package_description }}"
 readme = "README.md"
-license = { text = "MIT" }
+license = "Apache-2.0"
+license-files = ["LICEN[CS]E*", "COPYRIGHT"]
 authors = [
     { name = "{{ user_name }}", email = "{{ user_email }}" },
 ]
 requires-python = "{{ requires_python }}"
+keywords = []
+classifiers = [
+    # 3 - Alpha | 4 - Beta | 5 - Production/Stable
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
 dependencies = []
 
 [project.optional-dependencies]
-dev = [
-    "mypy>=1.0",
-]
+dev = ["detect-secrets"]
 
 [project.urls]
 Repository = "{{ git_repository }}"
+Issues = "{{ git_repository }}/issues"
+Changelog = "{{ git_repository }}/blob/main/CHANGELOG.md"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+local_scheme = "no-local-version"
+version_scheme = "guess-next-dev"
 
 [tool.mypy]
 python_version = "{{ python_version.split('.')[:2] | join('.') }}"
@@ -59,3 +80,48 @@ extra_checks = true
 
 # Show error codes to enable precise type: ignore[<code>] annotations
 show_error_codes = true
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+
+[tool.ruff]
+exclude = []
+indent-width = 4
+line-length = 79
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = [
+    "ANN001", # flake8-annotations (missing-type-function-argument)
+    "ANN002", # flake8-annotations (missing-type-args)
+    "ANN003", # flake8-annotations (missing-type-kwargs)
+    "D1",     # pydocstyle (undocumented-* ruleset)
+    "D403",   # pydocstyle (first-word-uncapitalized)
+    "D417",   # pydocstyle (undocumented-param)
+    "D419",   # pydocstyle (empty-docstring)
+    "E",      # pycodestyle (error ruleset)
+    "ERA",    # commented out code
+    "F401",   # pyflakes (unused-import)
+    "I002",   # isort (missing-required-import)
+    "LOG002", # flake8-logging (invalid-get-logger-argument)
+    "LOG007", # flake8-logging (exception-without-exc-info)
+    "LOG015", # flake8-logging (root-logger-call)
+    "NPY001", # NumPy-specific rules (numpy-deprecated-type-alias)
+    "NPY003", # NumPy-specific rules (numpy-deprecated-function)
+    "T100",   # flake8-debugger (debugger)
+    "T201",   # flake8-print (print)
+    "TRY002", # tryceratops (raise-vanilla-class)
+    "TRY003", # tryceratops (raise-vanilla-args)
+    "TRY004", # tryceratops (type-check-without-type-error)
+    "TRY300", # tryceratops (try-consider-else)
+    "TRY401", # tryceratops (verbose-log-message)
+    "W",      # pycodestyle (warning ruleset)
+    "C90",    # McCabe complexity (complex-structure)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
