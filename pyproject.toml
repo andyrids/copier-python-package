@@ -24,9 +24,6 @@ classifiers = [
 ]
 dependencies = []
 
-[project.optional-dependencies]
-dev = ["detect-secrets"]
-
 [project.urls]
 Repository = "https://github.com/andyrids/copier-python-package"
 Issues = "https://github.com/andyrids/copier-python-package/issues"
@@ -117,6 +114,7 @@ convention = "google"
 
 [dependency-groups]
 dev = [
+    "copier>=9.0.0",
     "coverage>=7.14.0",
     "detect-secrets>=1.5.0",
     "mypy>=2.1.0",

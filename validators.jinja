@@ -7,14 +7,14 @@
 {%- endmacro %}
 
 {% macro check_python_version(value) -%}
-{% if not (value | regex_search('^\d+(\.\d+)*$')) %}
+{% if not (value | regex_search('^\\d+(\\.\\d+)*$')) %}
     Version must be in the format 'X.Y' or 'X.Y.Z' where X, Y, and Z are numbers.
 {% endif %}
 {%- endmacro %}
 
 {% macro check_requires_python(value) -%}
-{% set specifier = '(~=|==|!=|<=|>=|<|>)\s*\d+(\.\d+)*(\.\*)?' %}
-{% if not (value | regex_search('^' ~ specifier ~ '(\s*,\s*' ~ specifier ~ ')*$')) %}
+{% set specifier = '(~=|==|!=|<=|>=|<|>)\\s*\\d+(\\.\\d+)*(\\.\\*)?' %}
+{% if not (value | regex_search('^' ~ specifier ~ '(\\s*,\\s*' ~ specifier ~ ')*$')) %}
     Must be a valid PEP 440 version specifier e.g. '>=3.9' or '>=3.7, !=3.7.0, !=3.7.1'.
 {% endif %}
 {%- endmacro %}

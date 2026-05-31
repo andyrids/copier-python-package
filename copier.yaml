@@ -58,6 +58,16 @@ git_platform:
     - GitLab
   default: GitHub
 
+github_user:
+  type: str
+  help: What is your GitHub username?
+  when: "{{ git_platform == 'GitHub' }}"
+
+gitlab_user:
+  type: str
+  help: What is your GitLab username?
+  when: "{{ git_platform == 'GitLab' }}"
+
 git_repository:
   type: str
   help: What is the URL of the Git repository?
@@ -73,7 +83,7 @@ requires_python:
   help: What is the minimum supported Python version?
   description: "The minimum Python version required to run this package."
   default: ">=3.10"
-  placeholder: >=3.10
+  placeholder: ">=3.10"
   validator: "{% from 'validators.jinja' import check_requires_python %}{{ check_requires_python(requires_python) }}"
 
 python_version:
