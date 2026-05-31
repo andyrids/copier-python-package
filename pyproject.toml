@@ -69,6 +69,7 @@ show_error_codes = true
 
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
+tmp_path_retention_policy = "failed"
 
 [tool.ruff]
 exclude = []
