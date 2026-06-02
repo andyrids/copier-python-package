@@ -7,10 +7,8 @@
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-A [Copier](https://github.com/copier-org/copier) template for bootstrapping Python packages managed by [uv](https://github.com/astral-sh/uv).
-
 >[!note]
-> This is an opinionated toolchain for personal projects.
+> This is an opinionated [Copier](https://github.com/copier-org/copier) template for bootstrapping Python packages managed by [uv](https://github.com/astral-sh/uv).
 
 ## Features
 
