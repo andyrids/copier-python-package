@@ -93,4 +93,4 @@ def test_prek_detect_secrets_hook(generated_project: Path) -> None:
 def test_init_package_name(generated_project: Path) -> None:
     """Test the package name rendering in __init__.py."""
     content = (generated_project / "src/test_package/__init__.py").read_text()
-    assert "test-package" in content
+    assert 'metadata.version("test-package")' in content
