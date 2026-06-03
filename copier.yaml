@@ -87,3 +87,11 @@ python_version:
   default: "3.13.13"
   placeholder: 3.13.13
   validator: "{% from 'validators.jinja' import check_python_version %}{{ check_python_version(python_version) }}"
+
+task_runner:
+  type: str
+  help: Which task runner do you want to use?
+  choices:
+    - Just
+    - GNU Make
+  default: Just

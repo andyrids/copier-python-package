@@ -121,5 +121,6 @@ dev = [
     "mypy>=2.1.0",
     "prek>=0.4.1",
     "pytest>=9.0.3",
+    "pytest-copier>=0.4.1",
     "ruff>=0.15.14",
 ]

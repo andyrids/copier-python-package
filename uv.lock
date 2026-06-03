@@ -216,6 +216,7 @@ dev = [
     { name = "mypy" },
     { name = "prek" },
     { name = "pytest" },
+    { name = "pytest-copier" },
     { name = "ruff" },
 ]
 
@@ -229,6 +230,7 @@ dev = [
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "prek", specifier = ">=0.4.1" },
     { name = "pytest", specifier = ">=9.0.3" },
+    { name = "pytest-copier", specifier = ">=0.4.1" },
     { name = "ruff", specifier = ">=0.15.14" },
 ]
 
@@ -389,6 +391,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/70/b8/c6081521ff70afdff55cd9512b2220bbf4fa88804dae51d1b57b4b58ef32/funcy-2.0.tar.gz", hash = "sha256:3963315d59d41c6f30c04bc910e10ab50a3ac4a225868bfa96feed133df075cb", size = 537931, upload-time = "2023-03-28T06:22:46.764Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d5/08/c2409cb01d5368dcfedcbaffa7d044cc8957d57a9d0855244a5eb4709d30/funcy-2.0-py2.py3-none-any.whl", hash = "sha256:53df23c8bb1651b12f095df764bfb057935d49537a56de211b098f4c79614bb0", size = 30891, upload-time = "2023-03-28T06:22:42.576Z" },
+]
+
+[[package]]
+name = "icdiff"
+version = "2.0.10"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/5b/6d/41c8ff13b67c30ceb9325398ff6bb9fc4b77208c6c1d79db8d5913840bc6/icdiff-2.0.10.tar.gz", hash = "sha256:75a3de5c9af35ab45fb0504df59770c514a12c0d2b2c99e5f9c5c2429957e133", size = 16378, upload-time = "2026-02-08T15:03:26.76Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/85/4b/bb94514476624bfff977599e5ef3ac9aea603abb693639ed305b22ed1b35/icdiff-2.0.10-py3-none-any.whl", hash = "sha256:fd8ce592d94261c435e2a410f668a41ec3be4527878f8df01100797021d8edb0", size = 17103, upload-time = "2026-02-08T15:03:25.723Z" },
 ]
 
 [[package]]
@@ -912,6 +923,46 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7d/0d/549bd94f1a0a402dc8cf64563a117c0f3765662e2e668477624baeec44d5/pytest-9.0.3.tar.gz", hash = "sha256:b86ada508af81d19edeb213c681b1d48246c1a91d304c6c81a427674c17eb91c", size = 1572165, upload-time = "2026-04-07T17:16:18.027Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d4/24/a372aaf5c9b7208e7112038812994107bc65a84cd00e0354a88c2c77a617/pytest-9.0.3-py3-none-any.whl", hash = "sha256:2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9", size = 375249, upload-time = "2026-04-07T17:16:16.13Z" },
+]
+
+[[package]]
+name = "pytest-copier"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "copier" },
+    { name = "pytest" },
+    { name = "pytest-dir-equal" },
+    { name = "pytest-gitconfig" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/41/c6/2bb7d4e5eb3afa29fda074b4fd69a9577a2db2304b853fec9a7883940ae9/pytest_copier-0.4.1.tar.gz", hash = "sha256:db1bfc9fb9d48a30fe9569dca13cd068812b98dcb0066754e7515869ea60d8f8", size = 6095, upload-time = "2023-12-11T10:18:03.845Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/98/1d/6ceb45d28daf3265eeccc6f764198d547dd37c466412b6a32ccc14ff5b5a/pytest_copier-0.4.1-py3-none-any.whl", hash = "sha256:f92822aa7c49ff8e8f806ace28516f0915205ded7e2a7e4e867ad20d7c48420d", size = 6596, upload-time = "2023-12-11T10:18:02.252Z" },
+]
+
+[[package]]
+name = "pytest-dir-equal"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "icdiff" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d9/ca/8b58c05754c065b577cd8d63b480029a813ab22ec5fdd5784f78b9ae8a0e/pytest_dir_equal-0.2.1.tar.gz", hash = "sha256:16654c385a3b0946e9a38a9d8c2ac3074dcaf914bdd07facff3f85f4f03761d5", size = 5685, upload-time = "2023-12-11T09:51:04.104Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/04/63/73a6a31a9f501af54994e2daa0579b7861087fb1b58dd3f9f1a4fe4c9663/pytest_dir_equal-0.2.1-py3-none-any.whl", hash = "sha256:b0d75305374357afd5dea7ee9348a6668f3037b8f0e58e298c54a885a1540cb2", size = 6122, upload-time = "2023-12-11T09:51:02.479Z" },
+]
+
+[[package]]
+name = "pytest-gitconfig"
+version = "0.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f5/c7/39ad46d239bf49e6c1c8b4f6b99e75c8bee7bfc1e83cd8542d8701190508/pytest_gitconfig-0.9.0.tar.gz", hash = "sha256:5f9e8a29b4a8e55ddd740216ddb0a8a5e97f1c9c7f6bfdac91863473a8c60f9c", size = 10078, upload-time = "2025-12-28T01:52:17.821Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/78/460084e968adb270fa1b15d3b125d3d6da25514293e05c811820a19bfc04/pytest_gitconfig-0.9.0-py3-none-any.whl", hash = "sha256:3d855a9dd5fb3906010dbb1f8161366d4d86b34df8c14021fa012f23de3e5354", size = 7113, upload-time = "2025-12-28T01:52:16.395Z" },
 ]
 
 [[package]]

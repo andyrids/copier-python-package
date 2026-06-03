@@ -2,39 +2,27 @@
 
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
+from typing import Any, Sequence
 
 import pytest
-from copier import run_copy
-
-
-_PROJECT_ROOT = Path(__file__).parent.parent
+from pytest_copier.plugin import CopierFixture, CopierProject
 
 
 @pytest.fixture(scope="session")
-def template_path(tmp_path_factory: pytest.TempPathFactory) -> Path:
-    """Copy the template project to a temp directory without .git for copier.
-
-    Args:
-        tmp_path_factory: A fixture for creating temporary directories.
+def copier_template_paths() -> Sequence[str]:
+    """Minimal whitelist of paths required to render the template.
 
     Returns:
-        Temporary path to the copied template project.
+        Sequence of paths relative to the project root to copy into the
+        isolated template source used by pytest-copier.
     """
-    dst = tmp_path_factory.mktemp("template_src")
-    shutil.copytree(
-        _PROJECT_ROOT,
-        dst,
-        dirs_exist_ok=True,
-        ignore=shutil.ignore_patterns(".git", ".venv", "__pycache__"),
-    )
-    return dst
+    return ["copier.yaml", "validators.jinja", "includes", "template"]
 
 
 @pytest.fixture(scope="session")
-def default_data() -> dict[str, str]:
-    """Return default answers for all copier template questions.
+def copier_defaults() -> dict[str, Any]:
+    """Default answers for all copier template questions.
 
     Returns:
         A dictionary of default answers for copier template questions.
@@ -46,7 +34,6 @@ def default_data() -> dict[str, str]:
         "user_email": "test@example.com",
         "git_platform": "GitHub",
         "github_user": "testuser",
-        "git_repository": "https://github.com/testuser/test-package",
         "requires_python": ">=3.10",
         "python_version": "3.12.13",
     }
@@ -55,28 +42,26 @@ def default_data() -> dict[str, str]:
 @pytest.fixture(scope="session")
 def generated_project(
     tmp_path_factory: pytest.TempPathFactory,
-    template_path: Path,
-    default_data: dict[str, str],
-) -> Path:
+    copier_template: Path,
+    copier_defaults: dict[str, Any],
+    sessionpatch: pytest.MonkeyPatch,
+) -> CopierProject:
     """Generate a project from the template into a temporary directory.
 
     Args:
         tmp_path_factory: A fixture for creating temporary directories.
-        template_path: A fixture providing the path to the copied template
-            project.
-        default_data: A fixture providing default answers for copier template
-            questions.
+        copier_template: Isolated, git-tagged copy of the template provided
+            by pytest-copier.
+        copier_defaults: Default answers for copier template questions.
+        sessionpatch: Session-scoped MonkeyPatch provided by pytest-copier.
 
     Returns:
-        Temporary path to the generated project.
+        A CopierProject instance wrapping the generated project path.
     """
     dst = tmp_path_factory.mktemp("generated")
-    run_copy(
-        str(template_path),
-        str(dst),
-        data=default_data,
-        defaults=True,
-        overwrite=True,
-        quiet=True,
+    fixture = CopierFixture(
+        template=copier_template,
+        defaults=copier_defaults,
+        monkeypatch=sessionpatch,
     )
-    return dst
+    return fixture.copy(dst)
