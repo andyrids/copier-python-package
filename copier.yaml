@@ -95,3 +95,9 @@ task_runner:
     - Just
     - GNU Make
   default: Just
+
+install_just_dependency:
+  type: bool
+  help: Do you want to install Just as a development dependency?
+  default: true
+  when: "{{ task_runner == 'Just' }}"
