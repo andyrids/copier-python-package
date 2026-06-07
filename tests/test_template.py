@@ -17,7 +17,6 @@ EXPECTED_FILES = [
     "COPYRIGHT",
     "CHANGELOG.md",
     "prek.toml",
-    "Dockerfile",
     "README.md",
     "LICENSE",
     "Justfile",

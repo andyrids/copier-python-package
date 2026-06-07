@@ -21,9 +21,8 @@ _templates_suffix: .jinja
 package_name:
   type: str
   help: What is the distribution package name?
-  default: "{{ package_name | lower | regex_replace('[-_.]+', '-') }}"
-  placeholder: example-package
-  validator: "{% from 'validators.jinja' import check_package_name %}{{ check_package_name(package_name) }}"
+  default: "{% include pathjoin('includes', 'default-pkg-name.jinja') %}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_package_name %}{{ check_package_name(package_name) }}"
 
 import_package_name:
   type: str
@@ -79,14 +78,14 @@ requires_python:
   help: What is the minimum supported Python version?
   default: ">=3.10"
   placeholder: ">=3.10"
-  validator: "{% from 'validators.jinja' import check_requires_python %}{{ check_requires_python(requires_python) }}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_requires_python %}{{ check_requires_python(requires_python) }}"
 
 python_version:
   type: str
   help: Which specific Python version are you using for development?
   default: "3.13.13"
   placeholder: 3.13.13
-  validator: "{% from 'validators.jinja' import check_python_version %}{{ check_python_version(python_version) }}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_python_version %}{{ check_python_version(python_version) }}"
 
 task_runner:
   type: str

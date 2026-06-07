@@ -17,7 +17,7 @@ def copier_template_paths() -> Sequence[str]:
         Sequence of paths relative to the project root to copy into the
         isolated template source used by pytest-copier.
     """
-    return ["copier.yaml", "validators.jinja", "includes", "template"]
+    return ["copier.yaml", "includes", "template"]
 
 
 @pytest.fixture(scope="session")
