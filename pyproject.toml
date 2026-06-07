@@ -67,6 +67,12 @@ extra_checks = true
 # Show error codes to enable precise type: ignore[<code>] annotations
 show_error_codes = true
 
+[tool.pymarkdown]
+extensions.markdown-tables.enabled = true
+plugins.line-length.enabled = true
+plugins.line-length.heading_line_length = 120
+plugins.line-length.line_length = 100
+
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
 tmp_path_retention_policy = "failed"
