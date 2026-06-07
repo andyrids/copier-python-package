@@ -46,6 +46,7 @@ repo = "local"
   id = "typing"
   name = "Typing [Mypy]"
   entry = "uv run -m mypy"
+  args = ["-m", "{{ package_name }}"]
   language = "system"
   types_or = ["python", "pyi"]
   exclude = "tests/"
