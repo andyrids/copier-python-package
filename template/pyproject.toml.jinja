@@ -32,7 +32,9 @@ dev = [
     "prek",
     "pytest",
     "ruff",
-    {% if install_just_dependency %}"rust-just"{% endif %}
+    {% if install_just_dependency %}
+    "rust-just",
+    {% endif %}
 ]
 
 [project.urls]
