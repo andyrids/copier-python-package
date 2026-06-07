@@ -33,7 +33,6 @@ import_package_name:
 package_description:
   type: str
   help: What is the summary description of the package?
-  default: "An example Python package."
   placeholder: An example Python package.
   multiline: false
 
