@@ -1,1 +1,1 @@
-{{- _copier_conf.dst_path | string | abspath | basename | lower -}}
+{{- _copier_conf.dst_path.resolve().name | lower -}}
