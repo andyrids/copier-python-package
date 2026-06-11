@@ -1,1 +1,1 @@
-{{- _copier_conf.dst_path.name | lower -}}
+{{- _copier_conf.dst_path | string | realpath | basename | lower -}}
