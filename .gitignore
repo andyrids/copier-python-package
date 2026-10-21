@@ -4,6 +4,11 @@ __pycache__/
 
 # uv — virtual environment
 .venv/
+.uv-cache/
+
+# hatchling — build output
+dist/
+src/*.egg-info/
 
 # pytest — test cache
 .pytest_cache/
@@ -23,9 +28,6 @@ htmlcov/
 # prek — pre-commit hook cache
 .prek/
 
-# Copier — answers file (written when template is applied to itself during testing)
-.copier-answers.yml
-
 # macOS — filesystem metadata
 .DS_Store
 
@@ -33,5 +35,12 @@ htmlcov/
 Thumbs.db
 ehthumbs.db
 
-# Secrets
+# VSCode - settings
+.vscode/
+
+# skill-creator — eval workspaces
+.claude/skills/*-workspace/
+
+.mcp.json
+
 .env*

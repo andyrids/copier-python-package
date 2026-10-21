@@ -1,22 +1,36 @@
 ---
+# Question reference: https://copier.readthedocs.io/en/stable/configuring/#questions
 _exclude:
-    - includes
+    - "__pycache__"
+    - "*.py[co]"
+    - ".DS_Store"
+    - "~*"
 
-_min_copier_version: "9.0.0"
+_min_copier_version: "9.5.0"
 _subdirectory: template
 _templates_suffix: .jinja
 
-# type: bool, float, int, json, path, str, yaml
-# help: Additional text to help the user know what this question is for
-# choices: To restrict possible values
-# multiselect: When set to true, allows multiple choices
-# default: Specify default answer
-# secret: When true, hides the prompt with asterisks (*****)
-# placeholder: A visual example for what would be a good value
-# qmark: Custom emoji or mark to display before the question
-# multiline: When set to true, allows multiple lines of input
-# validator: Jinja template for user input validation
-# when: Condition that, if false - skips the question
+_message_after_copy: |
+    Created {{ package_name }} in {{ _copier_conf.dst_path }}.
+
+    Next steps:
+
+      1. cd {{ _copier_conf.dst_path }}
+      2. git init && git add . && git commit -m "chore: initial commit from copier template"
+      3. {{ "just setup" if task_runner == "Just" else "make setup" }}
+      4. git add uv.lock prek.toml .secrets.baseline && git commit -m "chore: add lock & hooks"
+
+    CI requires `uv.lock`, `prek.toml` & `.secrets.baseline` to be committed.
+    {%- if publish_to_pypi %}
+
+    To publish on `v*` tags, add a PyPI trusted publisher for this project:
+    https://docs.pypi.org/trusted-publishers/adding-a-publisher/
+    {%- if git_platform == "GitHub" %}
+      Workflow: ci.yml, Environment: pypi
+    {%- else %}
+      Top-level pipeline file: .gitlab-ci.yml, Environment: pypi
+    {%- endif %}
+    {%- endif %}
 
 package_name:
   type: str
@@ -33,16 +47,19 @@ import_package_name:
 package_description:
   type: str
   help: What is the summary description of the package?
+  default: Python package description
   placeholder: An example Python package.
-  multiline: false
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_toml_string %}{{ check_toml_string(package_description) }}"
 
 user_name:
   type: str
   help: Your full name?
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_toml_string %}{{ check_toml_string(user_name) }}"
 
 user_email:
   type: str
   help: Your email address?
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_email %}{{ check_email(user_email) }}"
 
 git_platform:
   type: str
@@ -54,13 +71,15 @@ git_platform:
 
 github_user:
   type: str
-  help: What is your GitHub username?
+  help: What is your GitHub username (or organisation)?
   when: "{{ git_platform == 'GitHub' }}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_platform_user %}{{ check_platform_user(github_user) }}"
 
 gitlab_user:
   type: str
-  help: What is your GitLab username?
+  help: What is your GitLab username (or group)?
   when: "{{ git_platform == 'GitLab' }}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_platform_user %}{{ check_platform_user(gitlab_user) }}"
 
 git_repository:
   type: str
@@ -71,20 +90,29 @@ git_repository:
     {%- elif git_platform == 'GitLab' -%}
       https://gitlab.com/{{ gitlab_user }}/{{ package_name }}
     {%- endif -%}
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_url %}{{ check_url(git_repository) }}"
 
-requires_python:
+python_min:
   type: str
   help: What is the minimum supported Python version?
-  default: ">=3.10"
-  placeholder: ">=3.10"
-  validator: "{% from pathjoin('includes', 'validate.jinja') import check_requires_python %}{{ check_requires_python(requires_python) }}"
+  choices:
+    - "3.11"
+    - "3.12"
+    - "3.13"
+    - "3.14"
+  default: "3.11"
+
+# Highest version tested in CI & listed in classifiers - keep in step with `python_min` choices
+python_max:
+  type: str
+  default: "3.14"
+  when: false
 
 python_version:
   type: str
   help: Which specific Python version are you using for development?
-  default: "3.13.13"
-  placeholder: 3.13.13
-  validator: "{% from pathjoin('includes', 'validate.jinja') import check_python_version %}{{ check_python_version(python_version) }}"
+  default: "{% if (python_min.split('.')[1] | int) > 13 %}{{ python_min }}{% else %}3.13.13{% endif %}"
+  validator: "{% from pathjoin('includes', 'validate.jinja') import check_python_version %}{{ check_python_version(python_version, python_min) }}"
 
 task_runner:
   type: str
@@ -99,3 +127,8 @@ install_just_dependency:
   help: Do you want to install Just as a development dependency?
   default: true
   when: "{{ task_runner == 'Just' }}"
+
+publish_to_pypi:
+  type: bool
+  help: Do you want to publish to PyPI (trusted publishing) when a `v*` tag is pushed?
+  default: false

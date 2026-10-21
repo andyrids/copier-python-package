@@ -1,6 +1,38 @@
 #:schema https://raw.githubusercontent.com/j178/prek/refs/heads/master/prek.schema.json
 
-# BUILTIN REPO HOOKS
+[[repos]]
+repo = "https://gitlab.com/andyrids/pkgdx"
+rev = "v0.4.1"
+
+[[repos.hooks]]
+id = "pkgdx-lint"
+name = "Lint [Ruff]"
+
+[[repos.hooks]]
+id = "pkgdx-format"
+name = "Format [Ruff]"
+
+[[repos.hooks]]
+id = "pkgdx-markdown"
+name = "Check Markdown [PyMarkdown]"
+
+[[repos.hooks]]
+id = "pkgdx-secrets"
+name = "Detect Secrets [detect-secrets]"
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "pkgdx-typing"
+name = "Typing [Mypy]"
+entry = "uv run pkgdx-typing-hook"
+language = "system"
+types_or = ["python", "pyi"]
+exclude = "tests/"
+require_serial = true
+pass_filenames = false
+verbose = true
 
 [[repos]]
 repo = "builtin"
@@ -16,49 +48,3 @@ name = "Check YAML [Builtin]"
 [[repos.hooks]]
 id = "detect-private-key"
 name = "Detect PEM [Builtin]"
-
-# LOCAL REPO HOOKS
-
-[[repos]]
-repo = "local"
-
-[[repos.hooks]]
-id = "format"
-name = "Format [Ruff]"
-entry = "uv run -m ruff format"
-args = ["--exit-non-zero-on-format"]
-language = "system"
-types_or = ["python", "pyi"]
-require_serial = true
-pass_filenames = false
-
-[[repos.hooks]]
-id = "lint"
-name = "Lint [Ruff]"
-entry = "uv run -m ruff check"
-args = ["--fix", "--exit-non-zero-on-fix"]
-language = "system"
-types_or = ["python", "pyi"]
-require_serial = true
-pass_filenames = false
-
-[[repos.hooks]]
-id = "typing"
-name = "Typing [Mypy]"
-entry = "uv run -m mypy"
-language = "system"
-types_or = ["python", "pyi"]
-exclude = "tests/"
-require_serial = true
-pass_filenames = true
-
-[[repos.hooks]]
-id = "detect-secrets"
-name = "Detect Secrets [detect-secrets]"
-entry = "uv run detect-secrets-hook"
-args = ["--baseline", ".secrets.baseline", "--no-verify"]
-language = "system"
-exclude = "(\\.secrets\\.baseline|.*\\.lock)"
-require_serial = true
-pass_filenames = true
-stages = ["pre-commit"]
