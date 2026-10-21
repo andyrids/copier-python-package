@@ -1,20 +1,41 @@
 {#- validators.jinja - `copier.yaml` validator macros -#}
 
 {% macro check_package_name(value) -%}
-{% if not (value | regex_search('^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$', ignorecase=True)) %}
-    Name must start and end with a letter or number, and only contain letters, numbers, '.', '-', or '_'.
+{% if not (value | regex_search('^([A-Z]|[A-Z][A-Z0-9._-]*[A-Z0-9])$', ignorecase=True)) %}
+    Name must start with a letter, end with a letter or number, and only contain letters, numbers, '.', '-', or '_'.
 {% endif %}
 {%- endmacro %}
 
-{% macro check_python_version(value) -%}
-{% if not (value | regex_search('^\\d+(\\.\\d+)*$')) %}
-    Version must be in the format 'X.Y' or 'X.Y.Z' where X, Y, and Z are numbers.
+{% macro check_python_version(value, python_min) -%}
+{% if not (value | regex_search('^3\\.\\d+(\\.\\d+)?$')) %}
+    Version must be in the format '3.Y' or '3.Y.Z' where Y and Z are numbers.
+{% elif (value.split('.')[1] | int) < (python_min.split('.')[1] | int) %}
+    Version must be at least the minimum supported Python version ({{ python_min }}).
 {% endif %}
 {%- endmacro %}
 
-{% macro check_requires_python(value) -%}
-{% set specifier = '(~=|==|!=|<=|>=|<|>)\\s*\\d+(\\.\\d+)*(\\.\\*)?' %}
-{% if not (value | regex_search('^' ~ specifier ~ '(\\s*,\\s*' ~ specifier ~ ')*$')) %}
-    Must be a valid PEP 440 version specifier e.g. '>=3.9' or '>=3.7, !=3.7.0, !=3.7.1'.
+{% macro check_toml_string(value) -%}
+{% if not (value | trim) %}
+    Value must not be empty.
+{% elif value | regex_search('["\\\\\\n]') %}
+    Value must not contain double quotes, backslashes or newlines.
+{% endif %}
+{%- endmacro %}
+
+{% macro check_email(value) -%}
+{% if not (value | regex_search('^[^@\\s"\\\\]+@[^@\\s"\\\\]+\\.[^@\\s"\\\\]+$')) %}
+    Must be a valid email address e.g. 'name@example.com'.
+{% endif %}
+{%- endmacro %}
+
+{% macro check_platform_user(value) -%}
+{% if not (value | regex_search('^[A-Za-z0-9]([A-Za-z0-9._-]*[A-Za-z0-9])?$')) %}
+    Username must start and end with a letter or number, and only contain letters, numbers, '.', '-', or '_'.
+{% endif %}
+{%- endmacro %}
+
+{% macro check_url(value) -%}
+{% if not (value | regex_search('^https://\\S+$')) %}
+    Must be an 'https://' URL with no spaces.
 {% endif %}
 {%- endmacro %}

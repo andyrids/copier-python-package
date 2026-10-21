@@ -1,0 +1,8 @@
+"""Smoke tests for the `{{ import_package_name }}` package."""
+
+import {{ import_package_name }}
+
+
+def test_version() -> None:
+    """Assert the installed package exposes a version string."""
+    assert isinstance({{ import_package_name }}.__version__, str)

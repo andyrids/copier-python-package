@@ -14,6 +14,5 @@ secrets-baseline: ## Generate a detect-secrets baseline for the repository
 setup: ## Setup development environment
 	@echo "Creating development environment..."
 	@uv sync
-	@echo "Creating pre-commit hooks..."
-	@uv run -m prek install
-	@$(MAKE) secrets-baseline
+	@echo "Configuring pre-commit hooks & secrets baseline..."
+	@uv run pkgdx init

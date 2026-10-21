@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any
 
 import pytest
 from pytest_copier.plugin import CopierFixture, CopierProject
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from pathlib import Path
 
 
 @pytest.fixture(scope="session")
@@ -34,7 +37,7 @@ def copier_defaults() -> dict[str, Any]:
         "user_email": "test@example.com",
         "git_platform": "GitHub",
         "github_user": "testuser",
-        "requires_python": ">=3.10",
+        "python_min": "3.11",
         "python_version": "3.12.13",
     }
 

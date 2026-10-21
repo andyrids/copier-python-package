@@ -4,6 +4,7 @@ __pycache__/
 
 # uv — virtual environment
 .venv/
+.uv-cache/
 
 # hatchling — build output
 dist/
@@ -34,5 +35,12 @@ htmlcov/
 Thumbs.db
 ehthumbs.db
 
-# Secrets - environment variables
+# VSCode - settings
+.vscode/
+
+# skill-creator — eval workspaces
+.claude/skills/*-workspace/
+
+.mcp.json
+
 .env*
