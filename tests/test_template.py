@@ -28,7 +28,7 @@ EXPECTED_FILES = [
     "LICENSE",
     "Justfile",
     ".github/workflows/ci.yml",
-    "docs/standard-yagni.md",
+    "docs/guidance/standard-yagni.md",
     "src/test_package/__init__.py",
     "src/test_package/__main__.py",
     "src/test_package/py.typed",
