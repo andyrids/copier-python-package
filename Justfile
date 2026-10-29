@@ -2,7 +2,7 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 [windows]
-set shell := ["cmd.exe", "/c"]
+set shell := ["pwsh.exe", "-c"]
 
 set dotenv-load := true
 
@@ -19,9 +19,8 @@ secrets-baseline:
 [doc("Setup development environment")]
 [group("DEV")]
 setup:
-    uv sync
-    uv run -m prek install
-    {{ if path_exists(".secrets.baseline") == "false" { "just secrets-baseline" } else { "" } }}
+    @uv sync
+    @uv run pkgdx init
 
 [doc("Create `coverage` report")]
 [group("DEV")]
