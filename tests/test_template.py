@@ -28,7 +28,9 @@ EXPECTED_FILES = [
     "LICENSE",
     "Justfile",
     ".github/workflows/ci.yml",
+    "docs/guidance/standard-context-hierarchy.md",
     "docs/guidance/standard-yagni.md",
+    "docs/guidance/toolchain-pkgdx.md",
     "src/test_package/__init__.py",
     "src/test_package/__main__.py",
     "src/test_package/py.typed",
@@ -107,14 +109,6 @@ def test_pyproject_runtime_dependencies(
     """Test `rich` is a runtime dependency of the logging module."""
     pyproject = load_pyproject(generated_project)
     assert "rich" in pyproject["project"]["dependencies"]
-
-
-def test_pyproject_index_explicit(generated_project: CopierProject) -> None:
-    """Test the GitLab index only serves packages pinned to it via sources."""
-    pyproject = load_pyproject(generated_project)
-    (index,) = pyproject["tool"]["uv"]["index"]
-    assert index["explicit"] is True
-    assert pyproject["tool"]["uv"]["sources"]["pkgdx"] == {"index": "gitlab"}
 
 
 def test_pyproject_rust_just(generated_project: CopierProject) -> None:

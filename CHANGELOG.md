@@ -16,6 +16,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [0.2.0] - 2026-10-30
+
+### Added
+
+- `standard-context-hierarchy.md` explains the context layers, frontmatter keys and immutability.
+- `version` and `updated` frontmatter keys on every immutable guidance file.
+- `toolchain-pkgdx.md` covers `pkgdx` hook ownership in `prek.toml`, resets, upgrades and config
+  overrides.
+
+### Changed
+
+- `toolchain-prek.md` points to `toolchain-pkgdx.md`, which allows project hooks alongside `pkgdx`
+  hooks and warns that `init --reset` deletes them.
+- `toolchain-ruff.md`, `toolchain-mypy.md` and `toolchain-pymarkdown.md` point to
+  `toolchain-pkgdx.md` for config overrides.
+- `AGENTS.md` points to `standard-context-hierarchy.md` instead of summarizing the frontmatter.
+
+### Fixed
+
+- `toolchain-pytest.md` links `toolchain-coverage.md` instead of `reference-toolchain-coverage.md`.
+
 ## [0.1.1] - 2026-10-29
 
 ### Changed

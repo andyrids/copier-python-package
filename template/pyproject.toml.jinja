@@ -24,7 +24,7 @@ dependencies = ["rich"]
 
 [dependency-groups]
 dev = [
-    "pkgdx",
+    "pkgdx~=0.5",
     "coverage",
     "pytest",
     "pymarkdownlnt",
@@ -46,6 +46,12 @@ build-backend = "hatchling.build"
 [tool.coverage.run]
 omit = ["tests/*", "*/src_test*/*"]
 
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/README.md", "/CHANGELOG.md"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/{{ import_package_name }}"]
+
 [tool.hatch.version]
 source = "vcs"
 
@@ -55,25 +61,12 @@ dist_name = "{{ import_package_name }}"
 local_scheme = "no-local-version"
 version_scheme = "guess-next-dev"
 
-[tool.hatch.build.targets.sdist]
-include = ["/src", "/README.md", "/CHANGELOG.md"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/{{ import_package_name }}"]
-
 [tool.pytest.ini_options]
 addopts = ["--import-mode=importlib"]
 log_cli = true
 log_cli_level = "INFO"
+testpaths = ["tests"]
 tmp_path_retention_policy = "failed"
 
 [tool.uv]
 cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true } }]
-
-[[tool.uv.index]]
-name = "gitlab"
-url = "https://gitlab.com/api/v4/projects/82928123/packages/pypi/simple"
-explicit = true
-
-[tool.uv.sources]
-pkgdx = { index = "gitlab" }
