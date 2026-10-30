@@ -3,6 +3,8 @@ context-hierarchy: Layer 3
 context-hierarchy-role: Reference material
 immutable: true
 recommended-context-tokens: 2500
+version: 1.0.0
+updated: 2026-10-30
 tags: [CHANGELOG, documentation, semver]
 ---
 
@@ -19,4 +21,4 @@ tags: [CHANGELOG, documentation, semver]
   - `Fixed` for any bug fixes
   - `Security` in case of vulnerabilities
 - Brief sections summaries, ideally within 100 characters
-- Additions go under the latest [SemVer] - yyyy-mm-dd heading, if that version is unreleased
+- Additions go under the latest `[SemVer] - yyyy-mm-dd` heading, if that version is unreleased
