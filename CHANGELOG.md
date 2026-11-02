@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `toolchain-pkgdx.md` 1.1.1 covers the `[tool.pkgdx] exclude` list added in `pkgdx` 0.7.0.
 - `toolchain-mypy.md` 1.0.1 notes that `[tool.pkgdx] exclude` paths add to the default exclusions.
 - Generated projects require `pkgdx~=0.7`, so the `[tool.pkgdx] exclude` guidance applies.
+- `standard-cli.md`, `toolchain-logging.md` and `toolchain-pytest.md` 2.0.0 add MUST rules: CLIs
+  build on `pyclig`, consoles are created per run and logging is not configured from a file.
 
 ### Fixed
 
