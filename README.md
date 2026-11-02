@@ -27,8 +27,8 @@
   testing & coverage reporting
 - **[Just](https://github.com/casey/just)** or **GNU Make** - task runner for common
   development commands
-- **[Rich](https://github.com/Textualize/rich)** logging configuration, a base exception class
-  & a `py.typed` marker
+- A base exception class, a `NullHandler` on the package logger & a `py.typed` marker, with an
+  optional **[pyclig](https://github.com/andyrids/pyclig)** CLI
 - **CI/CD** - GitHub Actions or GitLab CI running hooks, a Python version test matrix & a build,
   with opt-in PyPI trusted publishing on `v*` tags
 - **`AGENTS.md`** & `docs/` - coding standards & toolchain references for coding agents
@@ -81,6 +81,7 @@ The template has no tasks or Jinja extensions, so `--trust` is never needed.
 | `task_runner` | `Just` or `GNU Make` | `Just` |
 | `install_just_dependency` | Add `rust-just` as a dev dependency (Just only) | `true` |
 | `publish_to_pypi` | Publish to PyPI on `v*` tags via trusted publishing | `false` |
+| `cli` | Generate a `pyclig` CLI in `__main__.py`, adding the `pyclig` dependency | `false` |
 
 `import_package_name` is derived from `package_name` (lowercased, with `-`, `_` & `.` runs
 replaced by `_`) and is not prompted. `python_min` sets `requires-python`, the version
@@ -127,7 +128,8 @@ same jobs:
 
 CI never runs `pkgdx init`, because creating `.secrets.baseline` in CI would accept any secret
 already committed. History & tags are fetched in full, as `hatch-vcs` derives the version from
-them.
+them. The `.secrets.baseline` check relies on `pkgdx init`, so remove it from the CI file if a
+project drops `pkgdx`.
 
 To publish, [add a trusted publisher][pypi-publisher] on PyPI before pushing the first tag:
 
@@ -145,16 +147,16 @@ your-project/
 ├── docs/                     # standards & toolchain references (Layer 3)
 ├── src/
 │   └── your_package/
-│       ├── logging/          # Rich logging configuration (config.toml)
-│       ├── __init__.py       # exposes __version__ via importlib.metadata
-│       ├── __main__.py       # CLI entry point
+│       ├── __init__.py       # exposes __version__, adds a NullHandler
+│       ├── __main__.py       # CLI entry point (cli only)
 │       ├── _types.py
 │       ├── exceptions.py     # package base exception
 │       └── py.typed
 ├── tests/
 │   ├── __init__.py
 │   ├── conftest.py
-│   └── test_init.py
+│   ├── test_init.py
+│   └── test_main.py          # (cli only)
 ├── .copier-answers.yml
 ├── .gitattributes
 ├── .gitignore
@@ -180,6 +182,12 @@ copier update
 Copier re-asks questions (pre-populated with previous answers) and applies a three-way merge of
 template changes into your project. Projects generated before `python_min` replaced
 `requires_python` are asked for `python_min` on their next update.
+
+Projects with a CLI must answer `cli` with yes. Copier deletes any file the new answers no longer
+generate, even a modified `__main__.py`, and `--defaults` silently takes `false`, so pass
+`--data cli=true` when updating without prompts. A customised `__main__.py` then conflicts with the
+generated one, and must be merged by hand. Updating also removes the generated `logging/`
+subpackage, so move any code that imports it first.
 
 ## Development
 

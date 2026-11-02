@@ -1,8 +1,16 @@
 """Smoke tests for the `{{ import_package_name }}` package."""
 
+import logging
+
 import {{ import_package_name }}
 
 
 def test_version() -> None:
     """Assert the installed package exposes a version string."""
     assert isinstance({{ import_package_name }}.__version__, str)
+
+
+def test_null_handler() -> None:
+    """Assert the package logger has a `NullHandler` for library use."""
+    logger = logging.getLogger({{ import_package_name }}.__name__)
+    assert any(isinstance(h, logging.NullHandler) for h in logger.handlers)
