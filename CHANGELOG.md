@@ -16,6 +16,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [0.3.0] - 2026-11-02
+
+### Added
+
+- A `cli` question (default `false`) generates a `pyclig` group in `__main__.py`, a `test_main.py`,
+  a `[project.scripts]` entry and the `pyclig` dependency.
+
+### Changed
+
+- `toolchain-pkgdx.md` 1.1.1 covers the `[tool.pkgdx] exclude` list added in `pkgdx` 0.7.0.
+- `toolchain-mypy.md` 1.0.1 notes that `[tool.pkgdx] exclude` paths add to the default exclusions.
+- Generated projects require `pkgdx~=0.7`, so the `[tool.pkgdx] exclude` guidance applies.
+- `standard-cli.md`, `toolchain-logging.md` and `toolchain-pytest.md` 2.0.0 add MUST rules: CLIs
+  build on `pyclig`, consoles are created per run and logging is not configured from a file.
+- `__version__` falls back to `0.0.0+unknown` without package metadata, instead of being undefined.
+- The package `__init__.py` adds the `NullHandler` itself, so library use stays silent.
+- `rich` is no longer a default dependency. Projects that import it must declare it themselves, as
+  dev environments still get it through `pkgdx`, so tests won't catch a missing one.
+
+### Removed
+
+- The `logging/` subpackage and the unconditional `__main__.py`. `copier update` deletes both, so a
+  project with a CLI must answer `cli` with yes.
+
+### Fixed
+
+- `toolchain-pkgdx.md` 1.1.1 and `toolchain-uv.md` 1.0.1 no longer say `pkgdx` resolves from a
+  GitLab index.
+- The hatch-vcs comment in `pyproject.toml` names the project instead of `pkgdx`.
+
 ## [0.2.0] - 2026-10-30
 
 ### Added

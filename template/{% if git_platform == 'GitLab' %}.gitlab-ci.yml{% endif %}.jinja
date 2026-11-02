@@ -29,6 +29,7 @@ hooks:
   extends: .uv
   stage: check
   script:
+    # .secrets.baseline comes from `pkgdx init`: remove it from this list if `pkgdx` is removed
     - |
       for f in uv.lock prek.toml .secrets.baseline; do
         if [ ! -f "$f" ]; then

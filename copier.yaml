@@ -132,3 +132,8 @@ publish_to_pypi:
   type: bool
   help: Do you want to publish to PyPI (trusted publishing) when a `v*` tag is pushed?
   default: false
+
+cli:
+  type: bool
+  help: Do you want a command-line interface? Answer yes if this project already has a `__main__.py`, as updating with no deletes it.
+  default: false

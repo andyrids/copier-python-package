@@ -1,0 +1,17 @@
+"""Main entry point for {{ import_package_name }}."""
+
+import pyclig
+
+from {{ import_package_name }} import exceptions
+
+
+@pyclig.group(
+    "{{ package_name }}",
+    errors=(exceptions.Error,),
+)
+def cli() -> None:
+    """Provide a unified CLI entrypoint."""
+
+
+if __name__ == "__main__":
+    cli()

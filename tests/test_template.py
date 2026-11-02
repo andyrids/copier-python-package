@@ -32,9 +32,7 @@ EXPECTED_FILES = [
     "docs/guidance/standard-yagni.md",
     "docs/guidance/toolchain-pkgdx.md",
     "src/test_package/__init__.py",
-    "src/test_package/__main__.py",
     "src/test_package/py.typed",
-    "src/test_package/logging/config.toml",
     "tests/__init__.py",
     "tests/conftest.py",
     "tests/test_init.py",
@@ -68,6 +66,7 @@ def test_copier_answers(generated_project: CopierProject) -> None:
     )
     assert answers["python_min"] == "3.11"
     assert answers["publish_to_pypi"] is False
+    assert answers["cli"] is False
 
 
 def test_pyproject_package_name(generated_project: CopierProject) -> None:
@@ -106,9 +105,19 @@ def test_pyproject_repository_url(generated_project: CopierProject) -> None:
 def test_pyproject_runtime_dependencies(
     generated_project: CopierProject,
 ) -> None:
-    """Test `rich` is a runtime dependency of the logging module."""
+    """Test the default library has no runtime dependencies or scripts."""
     pyproject = load_pyproject(generated_project)
-    assert "rich" in pyproject["project"]["dependencies"]
+    assert pyproject["project"]["dependencies"] == []
+    assert "scripts" not in pyproject["project"]
+
+
+def test_pyproject_pretend_version_comment(
+    generated_project: CopierProject,
+) -> None:
+    """Test the hatch-vcs comment names the project, not `pkgdx`."""
+    content = (generated_project / "pyproject.toml").read_text()
+    assert "SETUPTOOLS_SCM_PRETEND_VERSION_FOR_TEST_PACKAGE" in content
+    assert "SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PKGDX" not in content
 
 
 def test_pyproject_rust_just(generated_project: CopierProject) -> None:
@@ -139,6 +148,25 @@ def test_init_package_name(generated_project: CopierProject) -> None:
     """Test the package name rendering in __init__.py."""
     content = (generated_project / "src/test_package/__init__.py").read_text()
     assert 'metadata.version("test-package")' in content
+
+
+def test_init_version_fallback_and_null_handler(
+    generated_project: CopierProject,
+) -> None:
+    """Test __init__.py sets a version fallback & a `NullHandler` itself."""
+    content = (generated_project / "src/test_package/__init__.py").read_text()
+    assert "0.0.0+unknown" in content
+    assert "NullHandler" in content
+    assert "contextlib" not in content
+
+
+def test_default_omits_cli_and_logging(
+    generated_project: CopierProject,
+) -> None:
+    """Test the default library has no CLI entry point or logging package."""
+    assert not (generated_project / "src/test_package/__main__.py").exists()
+    assert not (generated_project / "src/test_package/logging").exists()
+    assert not (generated_project / "tests/test_main.py").exists()
 
 
 # ---------------------------------------------------------------------------
@@ -221,6 +249,36 @@ def test_variant_just_without_dependency(
     assert (
         "rust-just" not in load_pyproject(project)["dependency-groups"]["dev"]
     )
+
+
+def test_variant_cli(
+    copier: CopierFixture, tmp_path: pytest.TempPathFactory
+) -> None:
+    """Assert `cli=True` generates the CLI, its test, script & dependency."""
+    project = copier.copy(
+        tmp_path,  # pyright: ignore[reportArgumentType]
+        cli=True,
+    )
+    assert (project / "src/test_package/__main__.py").exists()
+    assert (project / "tests/test_main.py").exists()
+    pyproject = load_pyproject(project)
+    assert pyproject["project"]["dependencies"] == ["pyclig~=0.2"]
+    scripts = pyproject["project"]["scripts"]
+    assert scripts["test-package"] == "test_package.__main__:cli"
+    assert project.answers["cli"] is True
+
+
+def test_variant_cli_dotted_package_name(
+    copier: CopierFixture, tmp_path: pytest.TempPathFactory
+) -> None:
+    """Assert a dotted package name renders a valid script entry point."""
+    project = copier.copy(
+        tmp_path,  # pyright: ignore[reportArgumentType]
+        cli=True,
+        package_name="my.dotted-package",
+    )
+    scripts = load_pyproject(project)["project"]["scripts"]
+    assert scripts["my.dotted-package"] == "my_dotted_package.__main__:cli"
 
 
 def test_variant_python_min(

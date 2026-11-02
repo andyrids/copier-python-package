@@ -20,11 +20,11 @@ classifiers = [
     {%- endfor %}
     "Typing :: Typed",
 ]
-dependencies = ["rich"]
+dependencies = [{% if cli %}"pyclig~=0.2"{% endif %}]
 
 [dependency-groups]
 dev = [
-    "pkgdx~=0.5",
+    "pkgdx~=0.7",
     "coverage",
     "pytest",
     "pymarkdownlnt",
@@ -32,6 +32,11 @@ dev = [
     "rust-just",
     {%- endif %}
 ]
+{%- if cli %}
+
+[project.scripts]
+"{{ package_name }}" = "{{ import_package_name }}.__main__:cli"
+{%- endif %}
 
 [project.urls]
 Changelog = "{{ git_repository }}/blob/main/CHANGELOG.md"
@@ -56,7 +61,7 @@ packages = ["src/{{ import_package_name }}"]
 source = "vcs"
 
 [tool.hatch.version.raw-options]
-# lets SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PKGDX work under hatch-vcs
+# lets SETUPTOOLS_SCM_PRETEND_VERSION_FOR_{{ import_package_name | upper }} work under hatch-vcs
 dist_name = "{{ import_package_name }}"
 local_scheme = "no-local-version"
 version_scheme = "guess-next-dev"
