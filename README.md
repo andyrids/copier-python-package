@@ -189,6 +189,10 @@ generate, even a modified `__main__.py`, and `--defaults` silently takes `false`
 generated one, and must be merged by hand. Updating also removes the generated `logging/`
 subpackage, so move any code that imports it first.
 
+A project that imports `rich` must declare it, as the template no longer does. Tests won't catch a
+missing one, because `pkgdx` installs it in dev environments. Copier doesn't manage `prek.toml`, so
+move its `pkgdx` `rev` as well, as `toolchain-pkgdx.md` describes.
+
 ## Development
 
 ### Setup
