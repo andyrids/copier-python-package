@@ -113,9 +113,6 @@ git add uv.lock prek.toml .secrets.baseline
 git commit -m "chore: add lock & hooks"
 ```
 
-`pkgdx` is installed from its GitLab package registry, which is declared as an explicit uv index
-so that every other dependency still resolves from PyPI.
-
 ### Generated CI/CD
 
 GitHub projects get `.github/workflows/ci.yml` & GitLab projects get `.gitlab-ci.yml`, with the
