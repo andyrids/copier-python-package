@@ -16,6 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [Unreleased]
+
+### Changed
+
+- `standard-cli.md` 2.1.0, `toolchain-logging.md` 2.0.1 and `toolchain-pytest.md` 2.1.0 cover
+  `pyclig` 0.3: `-q`, `--no-color`, `--no-input` and `--plain`, examples-first help, the
+  `FORCE_COLOR` meaning and `assert_conforms`. The text names APIs that need `pyclig` 0.3.0.
+
 ## [0.3.0] - 2026-11-02
 
 ### Added
