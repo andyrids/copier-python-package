@@ -262,10 +262,25 @@ def test_variant_cli(
     assert (project / "src/test_package/__main__.py").exists()
     assert (project / "tests/test_main.py").exists()
     pyproject = load_pyproject(project)
-    assert pyproject["project"]["dependencies"] == ["pyclig~=0.2"]
+    assert pyproject["project"]["dependencies"] == ["pyclig~=0.3.0"]
     scripts = pyproject["project"]["scripts"]
     assert scripts["test-package"] == "test_package.__main__:cli"
     assert project.answers["cli"] is True
+
+
+def test_variant_cli_scaffold_conforms(
+    copier: CopierFixture, tmp_path: pytest.TempPathFactory
+) -> None:
+    """Assert the CLI scaffold has root examples & a conformance test."""
+    project = copier.copy(
+        tmp_path,  # pyright: ignore[reportArgumentType]
+        cli=True,
+    )
+    main = (project / "src/test_package/__main__.py").read_text()
+    assert 'examples=["test-package --help"]' in main
+    tests = (project / "tests/test_main.py").read_text()
+    assert "from pyclig.testing import assert_conforms, invoke" in tests
+    assert "assert_conforms(cli)" in tests
 
 
 def test_variant_cli_dotted_package_name(
