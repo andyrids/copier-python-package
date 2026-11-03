@@ -193,6 +193,11 @@ A project that imports `rich` must declare it, as the template no longer does. T
 missing one, because `pkgdx` installs it in dev environments. Copier doesn't manage `prek.toml`, so
 move its `pkgdx` `rev` as well, as `toolchain-pkgdx.md` describes.
 
+A CLI with its own dependency list conflicts in `pyproject.toml` when the template's pyclig pin
+moves: keep the project's list and pin pyclig there. A customised `tests/test_main.py` merges
+cleanly but gains `test_conforms`, so drop it if another test already calls
+`assert_conforms(cli)`.
+
 ## Development
 
 ### Setup
