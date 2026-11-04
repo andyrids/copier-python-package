@@ -42,7 +42,7 @@ tmp_path_retention_policy = "failed"
 dev = [
     "copier>=9.5.0",
     "coverage>=7.14.0",
-    "pkgdx~=0.7",
+    "pkgdx~=0.9",
     "pytest>=9.0.3",
     "pytest-copier>=0.4.1",
 ]
