@@ -1,6 +1,6 @@
 [project]
 name = "copier-python-package"
-version = "0.1.0"
+version = "0.5.0"
 description = "Copier template for bootstrapping uv-managed Python packages"
 readme = "README.md"
 license = "Apache-2.0"
@@ -42,7 +42,7 @@ tmp_path_retention_policy = "failed"
 dev = [
     "copier>=9.5.0",
     "coverage>=7.14.0",
-    "pkgdx~=0.7",
+    "pkgdx~=0.9",
     "pytest>=9.0.3",
     "pytest-copier>=0.4.1",
 ]

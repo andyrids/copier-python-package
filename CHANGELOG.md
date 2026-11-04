@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-04
+
+### Changed
+
+- Generated CLIs require `pyclig~=0.4.0`, and generated projects require `pkgdx~=0.9`.
+- `standard-cli.md` 2.2.0 recommends printing records with `ctx.emit`. The text names APIs that
+  need `pyclig` 0.4.0.
+
 ## [0.4.0] - 2026-11-03
 
 ### Changed
