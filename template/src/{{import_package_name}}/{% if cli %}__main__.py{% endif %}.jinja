@@ -8,6 +8,7 @@ from {{ import_package_name }} import exceptions
 @pyclig.group(
     "{{ package_name }}",
     errors=(exceptions.Error,),
+    examples=["{{ package_name }} --help"],
 )
 def cli() -> None:
     """Provide a unified CLI entrypoint."""

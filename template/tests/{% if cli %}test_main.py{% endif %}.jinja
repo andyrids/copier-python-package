@@ -1,6 +1,6 @@
 """Tests for the `{{ import_package_name }}` CLI."""
 
-from pyclig.testing import invoke
+from pyclig.testing import assert_conforms, invoke
 
 from {{ import_package_name }}.__main__ import cli
 
@@ -15,3 +15,8 @@ def test_version() -> None:
 def test_no_command_exits_cleanly() -> None:
     """Assert a bare invocation exits cleanly."""
     assert invoke(cli).exit_code == 0
+
+
+def test_conforms() -> None:
+    """Assert the CLI follows the pyclig conformance rules."""
+    assert_conforms(cli)
