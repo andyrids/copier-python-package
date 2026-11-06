@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Generated CLIs require `pyclig~=0.5.0`, and generated projects require `pkgdx~=0.10`.
+
 ## [0.5.0] - 2026-11-04
 
 ### Changed
