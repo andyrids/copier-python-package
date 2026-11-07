@@ -16,7 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
-## [Unreleased]
+## [0.6.0] - 2026-11-07
+
+### Changed
+
+- Generated CLIs require `pyclig~=0.5.0`, and generated projects require `pkgdx~=0.10`.
+- `standard-cli.md` 2.3.0 adds `-o`, `-p` and `-u` as pyclig options and covers config,
+  environment and secrets. The text names APIs that need `pyclig` 0.5.0.
 
 ## [0.5.0] - 2026-11-04
 
