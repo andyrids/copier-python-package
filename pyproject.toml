@@ -1,6 +1,6 @@
 [project]
 name = "copier-python-package"
-version = "0.6.0"
+version = "0.7.0"
 description = "Copier template for bootstrapping uv-managed Python packages"
 readme = "README.md"
 license = "Apache-2.0"
