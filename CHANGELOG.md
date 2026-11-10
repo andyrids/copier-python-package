@@ -16,6 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [Unreleased]
+
+### Changed
+
+- Generated CLIs require `pyclig~=0.6.0`, and generated projects require `pkgdx~=0.11`.
+- `standard-cli.md` 2.4.0 and `toolchain-logging.md` 2.1.0 cover signals and exit codes 130 and
+  143, bounded clean-up, `--timeout`, `--confirm`, third-party warnings, `<PROG>_LOG_FILE` and
+  `ctx.logs_on_failure`. The text names APIs that need `pyclig` 0.6.0.
+
 ## [0.6.0] - 2026-11-07
 
 ### Changed
