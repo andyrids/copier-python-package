@@ -262,7 +262,7 @@ def test_variant_cli(
     assert (project / "src/test_package/__main__.py").exists()
     assert (project / "tests/test_main.py").exists()
     pyproject = load_pyproject(project)
-    assert pyproject["project"]["dependencies"] == ["pyclig~=0.6.0"]
+    assert pyproject["project"]["dependencies"] == ["pyclig~=0.7.0"]
     scripts = pyproject["project"]["scripts"]
     assert scripts["test-package"] == "test_package.__main__:cli"
     assert project.answers["cli"] is True

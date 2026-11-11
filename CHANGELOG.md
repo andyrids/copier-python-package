@@ -16,6 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [0.8.0] - 2026-11-11
+
+### Changed
+
+- Generated CLIs require `pyclig~=0.7.0`, and generated projects require `pkgdx~=0.12`.
+- `standard-cli.md` 2.5.0 covers `samples=` and the new static rules in the conformance test,
+  `docs=` and `LEARN MORE:`, pre-filled bug reports, `options.NoneOr`, `-v/--version` after a
+  command name, and `ctx.cleanup` around blocking network I/O. The text names APIs that need
+  `pyclig` 0.7.0.
+
 ## [0.7.0] - 2026-11-10
 
 ### Changed
