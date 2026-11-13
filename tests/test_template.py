@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime
+import json
 import tomllib
 from typing import TYPE_CHECKING, Any
 
@@ -28,9 +29,7 @@ EXPECTED_FILES = [
     "LICENSE",
     "Justfile",
     ".github/workflows/ci.yml",
-    "docs/guidance/standard-context-hierarchy.md",
-    "docs/guidance/standard-yagni.md",
-    "docs/guidance/toolchain-pkgdx.md",
+    ".claude/settings.json",
     "src/test_package/__init__.py",
     "src/test_package/py.typed",
     "tests/__init__.py",
@@ -158,6 +157,25 @@ def test_init_version_fallback_and_null_handler(
     assert "0.0.0+unknown" in content
     assert "NullHandler" in content
     assert "contextlib" not in content
+
+
+def test_agent_guidance_plugin(generated_project: CopierProject) -> None:
+    """Test guidance comes from the plugin, not copied `docs/guidance`."""
+    assert not (generated_project / "docs/guidance").exists()
+    settings = json.loads(
+        (generated_project / ".claude/settings.json").read_text()
+    )
+    marketplace = settings["extraKnownMarketplaces"]["agent-guidance"]
+    assert marketplace["source"] == {
+        "source": "github",
+        "repo": "andyrids/agent-guidance",
+    }
+    assert (
+        settings["enabledPlugins"]["codebase-guidance@agent-guidance"] is True
+    )
+    agents = (generated_project / "AGENTS.md").read_text()
+    assert "docs/guidance" not in agents
+    assert "{{" not in agents
 
 
 def test_default_omits_cli_and_logging(

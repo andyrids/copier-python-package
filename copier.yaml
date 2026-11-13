@@ -21,6 +21,9 @@ _message_after_copy: |
       4. git add uv.lock prek.toml .secrets.baseline && git commit -m "chore: add lock & hooks"
 
     CI requires `uv.lock`, `prek.toml` & `.secrets.baseline` to be committed.
+
+    Agent guidance comes from the `codebase-guidance` plugin. Install it once with:
+      claude plugin install codebase-guidance@agent-guidance --scope project
     {%- if publish_to_pypi %}
 
     To publish on `v*` tags, add a PyPI trusted publisher for this project:

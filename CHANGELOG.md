@@ -16,6 +16,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [0.10.0] - 2026-11-13
+
+> [!WARNING]
+>
+> Breaking for existing projects: `copier update` deletes `docs/guidance/`. Install the plugin
+> with `claude plugin install codebase-guidance@agent-guidance --scope project` to keep the
+> guidance.
+
+### Added
+
+- `.claude/settings.json` in generated projects, which declares the `agent-guidance` marketplace
+  ([andyrids/agent-guidance](https://github.com/andyrids/agent-guidance)) and enables its
+  `codebase-guidance` plugin.
+- A post-copy message with the one-time plugin install command.
+
+### Changed
+
+- `AGENTS.md` in generated projects inlines the YAGNI principles and points at the plugin's
+  skills for standards, toolchain references and the context hierarchy.
+
+### Removed
+
+- The `docs/guidance` copies of the standards and toolchain references, which now ship as skills
+  in the `codebase-guidance` plugin.
+
 ## [0.9.0] - 2026-11-11
 
 ### Changed

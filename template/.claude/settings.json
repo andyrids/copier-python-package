@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "agent-guidance": {
+      "source": { "source": "github", "repo": "andyrids/agent-guidance" }
+    }
+  },
+  "enabledPlugins": {
+    "codebase-guidance@agent-guidance": true
+  }
+}

@@ -31,7 +31,9 @@
   optional **[pyclig](https://github.com/andyrids/pyclig)** CLI
 - **CI/CD** - GitHub Actions or GitLab CI running hooks, a Python version test matrix & a build,
   with opt-in PyPI trusted publishing on `v*` tags
-- **`AGENTS.md`** & `docs/` - coding standards & toolchain references for coding agents
+- **`AGENTS.md`** & `.claude/settings.json` - coding standards & toolchain references for coding
+  agents, from the `codebase-guidance` plugin
+  ([andyrids/agent-guidance](https://github.com/andyrids/agent-guidance))
 - Apache 2.0 licence & `COPYRIGHT`
 
 ## Requirements
@@ -143,8 +145,8 @@ To publish, [add a trusted publisher][pypi-publisher] on PyPI before pushing the
 
 ```text
 your-project/
+├── .claude/settings.json     # enables the codebase-guidance plugin
 ├── .github/workflows/ci.yml  # or .gitlab-ci.yml
-├── docs/                     # standards & toolchain references (Layer 3)
 ├── src/
 │   └── your_package/
 │       ├── __init__.py       # exposes __version__, adds a NullHandler
