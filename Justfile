@@ -40,3 +40,8 @@ git-prune:
 [windows]
 psmux:
     psmux new-session -s (Get-Item .).Name
+
+[doc("Update packages (`uv.lock`)")]
+[group("DEV")]
+upgrade-lock:
+    uv lock --upgrade-group dev
