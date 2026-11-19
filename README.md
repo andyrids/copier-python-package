@@ -31,7 +31,7 @@
   optional **[pyclig](https://github.com/andyrids/pyclig)** CLI
 - **CI/CD** - GitHub Actions or GitLab CI running hooks, a Python version test matrix & a build,
   with opt-in PyPI trusted publishing on `v*` tags
-- **`AGENTS.md`** & `docs/` - coding standards & toolchain references for coding agents
+- **`AGENTS.md`** & `CLAUDE.md` - project commands, tooling & layout for coding agents
 - Apache 2.0 licence & `COPYRIGHT`
 
 ## Requirements
@@ -144,7 +144,6 @@ To publish, [add a trusted publisher][pypi-publisher] on PyPI before pushing the
 ```text
 your-project/
 ├── .github/workflows/ci.yml  # or .gitlab-ci.yml
-├── docs/                     # standards & toolchain references (Layer 3)
 ├── src/
 │   └── your_package/
 │       ├── __init__.py       # exposes __version__, adds a NullHandler
@@ -163,6 +162,7 @@ your-project/
 ├── .python-version
 ├── AGENTS.md
 ├── CHANGELOG.md
+├── CLAUDE.md                 # imports AGENTS.md
 ├── COPYRIGHT
 ├── Justfile                  # or Makefile
 ├── LICENSE
@@ -191,7 +191,14 @@ subpackage, so move any code that imports it first.
 
 A project that imports `rich` must declare it, as the template no longer does. Tests won't catch a
 missing one, because `pkgdx` installs it in dev environments. Copier doesn't manage `prek.toml`, so
-move its `pkgdx` `rev` as well, as `toolchain-pkgdx.md` describes.
+move its `pkgdx` `rev` as well, as the [pkgdx reference][pkgdx-upgrading] describes.
+
+[pkgdx-upgrading]: https://gitlab.com/andyrids/pkgdx/-/blob/main/docs/reference.md#upgrading
+
+Updating from 0.9.0 or earlier deletes `docs/guidance/`, though files you edited may conflict or
+remain, so delete them by hand. A `CLAUDE.md` symlink made by the old `symlink-agents` recipe is
+kept as it is. Delete it and commit before updating to get the generated `CLAUDE.md`, which imports
+`AGENTS.md`.
 
 A CLI with its own dependency list conflicts in `pyproject.toml` when the template's pyclig pin
 moves: keep the project's list and pin pyclig there. A customised `tests/test_main.py` merges
