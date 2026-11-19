@@ -36,6 +36,10 @@ EXPECTED_FILES = [
     "tests/test_init.py",
 ]
 
+CLI_STANDARD_URL = (
+    "https://github.com/andyrids/pyclig/blob/main/docs/cli-standard.md"
+)
+
 
 def load_pyproject(project: CopierProject) -> dict[str, Any]:
     """Parse the generated pyproject.toml, asserting it is valid TOML."""
@@ -146,6 +150,7 @@ def test_agents_md_default(generated_project: CopierProject) -> None:
     assert "docs/guidance" not in content
     assert "just coverage" in content
     assert "## CLI" not in content
+    assert CLI_STANDARD_URL not in content
     assert "{%" not in content
     assert "\n\n\n" not in content
     assert not (generated_project / "docs").exists()
@@ -304,6 +309,8 @@ def test_variant_cli_scaffold_conforms(
     agents = (project / "AGENTS.md").read_text()
     assert "## CLI" in agents
     assert "`uv run test-package --help`" in agents
+    assert f"[CLI standard]({CLI_STANDARD_URL})" in agents
+    assert "which owns the CLI conventions" not in agents
     assert "\n\n\n" not in agents
 
 

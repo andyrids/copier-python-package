@@ -16,6 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [Unreleased]
+
+## [0.10.1] - 2026-11-19
+
+### Changed
+
+- Generated `AGENTS.md` links the pyclig CLI standard from its CLI section.
+
 ## [0.10.0] - 2026-11-19
 
 ### Added
