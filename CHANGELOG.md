@@ -16,6 +16,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > - `Fixed` for any bug fixes.
 > - `Security` in case of vulnerabilities.
 
+## [0.10.0] - 2026-11-19
+
+### Added
+
+- Generated `CLAUDE.md` imports `AGENTS.md` with `@AGENTS.md`, replacing the symlink.
+- Generated `.gitattributes` marks binaries and generated files, and sets Python and Markdown diffs.
+- Generated `AGENTS.md` links the `pkgdx` reference in place of `toolchain-pkgdx.md`.
+
+### Changed
+
+- Generated `AGENTS.md` lists commands, tooling, layout, and conventions, with a CLI section.
+
+### Removed
+
+- `docs/guidance/` standards from generated projects; personal standards now live in `hq`.
+  `copier update` deletes them, and the README covers edited files and the old symlink.
+- `symlink-agents` Just recipe and the context-hierarchy frontmatter on `AGENTS.md`.
+
 ## [0.9.0] - 2026-11-11
 
 ### Changed

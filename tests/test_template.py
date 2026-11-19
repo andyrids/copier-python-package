@@ -21,6 +21,7 @@ EXPECTED_FILES = [
     ".gitignore",
     ".python-version",
     "AGENTS.md",
+    "CLAUDE.md",
     "pyproject.toml",
     "COPYRIGHT",
     "CHANGELOG.md",
@@ -28,9 +29,6 @@ EXPECTED_FILES = [
     "LICENSE",
     "Justfile",
     ".github/workflows/ci.yml",
-    "docs/guidance/standard-context-hierarchy.md",
-    "docs/guidance/standard-yagni.md",
-    "docs/guidance/toolchain-pkgdx.md",
     "src/test_package/__init__.py",
     "src/test_package/py.typed",
     "tests/__init__.py",
@@ -132,6 +130,27 @@ def test_justfile_setup(generated_project: CopierProject) -> None:
     assert "setup:\n    uv sync\n    uv run pkgdx init\n" in content
 
 
+def test_claude_md_imports_agents_md(
+    generated_project: CopierProject,
+) -> None:
+    """Test CLAUDE.md is a regular file that imports AGENTS.md."""
+    path = generated_project / "CLAUDE.md"
+    assert not path.is_symlink()
+    assert "@AGENTS.md" in path.read_text().splitlines()
+
+
+def test_agents_md_default(generated_project: CopierProject) -> None:
+    """Test AGENTS.md renders without guidance links, frontmatter or CLI."""
+    content = (generated_project / "AGENTS.md").read_text()
+    assert content.startswith("# test-package [`test_package`]\n")
+    assert "docs/guidance" not in content
+    assert "just coverage" in content
+    assert "## CLI" not in content
+    assert "{%" not in content
+    assert "\n\n\n" not in content
+    assert not (generated_project / "docs").exists()
+
+
 def test_copyright_year(generated_project: CopierProject) -> None:
     """Test the current year rendering in COPYRIGHT via strftime."""
     content = (generated_project / "COPYRIGHT").read_text()
@@ -230,6 +249,7 @@ def test_variant_gnu_make(
     )
     assert (project / "Makefile").exists()
     assert not (project / "Justfile").exists()
+    assert "just coverage" not in (project / "AGENTS.md").read_text()
     assert "\t@uv run pkgdx init\n" in (project / "Makefile").read_text()
     assert (
         "rust-just" not in load_pyproject(project)["dependency-groups"]["dev"]
@@ -281,6 +301,10 @@ def test_variant_cli_scaffold_conforms(
     tests = (project / "tests/test_main.py").read_text()
     assert "from pyclig.testing import assert_conforms, invoke" in tests
     assert "assert_conforms(cli)" in tests
+    agents = (project / "AGENTS.md").read_text()
+    assert "## CLI" in agents
+    assert "`uv run test-package --help`" in agents
+    assert "\n\n\n" not in agents
 
 
 def test_variant_cli_dotted_package_name(
