@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-11-19
+
 ### Changed
 
 - Generated `AGENTS.md` links the pyclig CLI standard from its CLI section.
