@@ -35,7 +35,8 @@ coverage *FLAGS:
 git-prune:
     git gc --prune=now --aggressive
 
-[doc("Symlink `AGENTS.md` -> `CLAUDE.md`")]
+[doc("Start a new `psmux` session named after `cwd`")]
 [group("DEV")]
-symlink-agents:
-    @uv run python -c "import pathlib; p=pathlib.Path('CLAUDE.md'); p.unlink(missing_ok=True); p.symlink_to('AGENTS.md')"
+[windows]
+psmux:
+    psmux new-session -s (Get-Item .).Name

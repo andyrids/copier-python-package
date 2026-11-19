@@ -1,10 +1,3 @@
----
-context-hierarchy: Layer 0
-context-hierarchy-role: Global identity
-immutable: false
-recommended-context-tokens: 900
----
-
 # Copier Python package template [`copier-python-package`]
 
 This Copier template project is used to bootstrap Python package projects using a modern stack.
@@ -12,19 +5,23 @@ This Copier template project is used to bootstrap Python package projects using 
 - Astral uv package management
 - A `hatchling` + `hatch-vcs` build backend with version derived from Git tags
 - Canonical standards provided by `pkgdx` ([andyrids/pkgdx](https://gitlab.com/andyrids/pkgdx))
-- Agent guidance documentation (`template/docs/guidance/*.md`)
+- A generated `AGENTS.md` (commands, tooling, layout) and a `CLAUDE.md` that imports it
 
-This project adheres to [YAGNI](template/docs/guidance/standard-yagni.md) principles.
+## Layout
 
-## Context hierarchy
+- `copier.yaml` - Questions, validators and the `template` subdirectory
+- `template/` - Rendered into each generated project (`.jinja` files are templated)
+- `tests/test_template.py` - Generation tests via `pytest-copier`
 
-Markdown files declare their layer in frontmatter - read
-[standard-context-hierarchy.md](template/docs/guidance/standard-context-hierarchy.md) before
-creating or editing one. Files marked `immutable: true` are never edited in passing: propose the
-change and wait for approval.
+## Commands
 
-## Reference
+- `uv run pytest -v` - Generate projects and test them
+- `uv run prek run --all-files` - Run every hook
 
-Standards and references live in `template/docs/guidance/` as `standard-*.md` and `toolchain-*.md`
-files (Layer 3). Load a file when its subject is in play, which can be determined by the
-frontmatter.
+## Conventions
+
+- Implement only what is asked; prefer the standard library, then an existing dependency, and ask
+  before adding one
+- `template/AGENTS.md.jinja` holds project facts and commands only. Personal standards live in
+  `~/.claude/rules`, managed by the `hq` repo, and are not bundled into generated projects
+- Keep generated Markdown free of stray blank lines: use `{%-` on block tags in `.jinja` files

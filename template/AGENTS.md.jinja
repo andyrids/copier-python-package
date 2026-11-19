@@ -1,24 +1,57 @@
----
-context-hierarchy: Layer 0
-context-hierarchy-role: Global identity
-immutable: false
-recommended-context-tokens: 900
----
-
 # {{package_name}} [`{{import_package_name}}`]
 
 {{package_description}}
 
-This project adheres to [YAGNI](docs/guidance/standard-yagni.md) principles.
+## Commands
 
-## Context hierarchy
+- `uv sync` - Install the project and its dev dependencies
+- `uv run prek run --all-files` - Run every hook; run it before finishing a change
+- `uv run pytest -v` - Run the test suite (`uv run pytest tests/test_<module>.py -v` for one module)
+{%- if task_runner == 'Just' %}
+- `just coverage` - Run the suite under coverage (fails under 75%)
+{%- endif %}
+{%- if cli %}
+- `uv run {{package_name}} --help` - Run the CLI
+{%- endif %}
 
-Markdown files declare their layer in frontmatter - read
-[standard-context-hierarchy.md](docs/guidance/standard-context-hierarchy.md) before creating or
-editing one. Files marked `immutable: true` are never edited in passing: propose the change and
-wait for approval.
+## Tooling
 
-## Reference
+`pkgdx` (dev dependency) ships the Ruff, Mypy and PyMarkdown configs and their hooks.
 
-Standards and references live in `docs/guidance` as `standard-*.md` and `toolchain-*.md` files
-(Layer 3). Load a file when its subject is in play, which can be determined by the frontmatter.
+- Lint, format, type-check and Markdown-lint with `uv run pkgdx-lint-hook`,
+  `pkgdx-format-hook`, `pkgdx-typing-hook` and `pkgdx-markdown-hook`, not bare `ruff`, `mypy` or
+  `pymarkdown`
+- Do not add `[tool.ruff]`, `[tool.mypy]` or PyMarkdown config to `pyproject.toml`; line length
+  is 79
+- Exclude vendored or generated paths with `[tool.pkgdx] exclude` in `pyproject.toml`
+- Do not hand-edit `pkgdx` entries in `prek.toml`, and do not run `uv run pkgdx init --reset`
+  without first copying project hooks out of `prek.toml`
+- See the [`pkgdx` reference](https://gitlab.com/andyrids/pkgdx/-/blob/main/docs/reference.md)
+  for hooks, excludes, upgrades and config overrides
+
+## Layout
+
+- `src/{{import_package_name}}/` - Package source
+- `tests/test_<module>.py` - Tests mirroring `src/`, with shared fixtures in `tests/conftest.py`
+- `CHANGELOG.md` - Keep a Changelog
+
+## Conventions
+
+- Python >= {{python_min}}
+- Implement only what is asked; prefer the standard library, then an existing dependency, and ask
+  before adding one
+{%- if cli %}
+
+## CLI
+
+The CLI in `src/{{import_package_name}}/__main__.py` is built on
+[`pyclig`](https://github.com/andyrids/pyclig), which owns the CLI conventions.
+
+- Do not reimplement exit codes, `-h`/`--help`, `-q`, `-d`/`--debug`, `--no-input`, colour or
+  error output
+- Send primary output to `ctx.out` (records via `ctx.emit`) and messages, logs and progress to
+  `ctx.err`
+- Use the `pyclig.options` helpers for common flags (`--json`, `--dry-run`, `--force`, `--output`)
+- Test commands with `pyclig.testing.invoke`, and keep one `pyclig.testing.assert_conforms(cli)`
+  test with a reason for each ignored rule
+{%- endif %}
